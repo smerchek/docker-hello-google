@@ -12,7 +12,7 @@
            "id": "railscontroller",
            "containers": [{
              "name": "hello",
-             "image": "${INTERNAL_REGISTRY_ENDPOINT}/hello:${TAG}",
+             "image": "${INTERNAL_REGISTRY_ENDPOINT}/hello:${CIRCLE_SHA1}",
              "ports": [{"containerPort": 3000}],
 	     "env": [{"name": "SECRET_KEY_BASE", "value": "${RAILS_SECRET}"}]
            }]

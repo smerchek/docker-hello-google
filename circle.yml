@@ -18,4 +18,4 @@ deployment:
   prod:
     branch: master
     commands:
-      - ./deploy.sh $CIRCLE_SHA1
+      - ./deploy.sh
