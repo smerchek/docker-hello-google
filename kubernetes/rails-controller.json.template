@@ -1,0 +1,24 @@
+{
+  "id": "railscontroller",
+  "kind": "ReplicationController",
+  "apiVersion": "v1beta1",
+  "desiredState": {
+    "replicas": 2,
+    "replicaSelector": {"name": "rails"},
+    "podTemplate": {
+      "desiredState": {
+         "manifest": {
+           "version": "v1beta1",
+           "id": "railscontroller",
+           "containers": [{
+             "name": "hello",
+             "image": "${INTERNAL_REGISTRY_ENDPOINT}/hello:${TAG}",
+             "ports": [{"containerPort": 3000}],
+	     "env": [{"name": "SECRET_KEY_BASE", "value": "${RAILS_SECRET}"}]
+           }]
+         }
+       },
+       "labels": {"name": "rails"}
+      }},
+  "labels": {"name": "rails"}
+}

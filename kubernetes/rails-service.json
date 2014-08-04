@@ -1,0 +1,13 @@
+{
+  "id": "railsservice",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 8000,
+  "labels": {
+    "name": "rails"
+  },
+  "selector": {
+    "name": "rails"
+  },
+  "createExternalLoadBalancer": true
+}

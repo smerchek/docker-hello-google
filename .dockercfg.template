@@ -1,0 +1,1 @@
+{"https://${EXTERNAL_REGISTRY_ENDPOINT}/v1/":{"auth":"${REGISTRY_AUTH}"}}
