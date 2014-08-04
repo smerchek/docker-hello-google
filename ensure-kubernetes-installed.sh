@@ -13,11 +13,10 @@ else
   echo "Installing Kubernetes..."
 fi
 
-# Download and unzip
-wget -O ~/kubernetes.tar.gz \
-  https://github.com/GoogleCloudPlatform/kubernetes/archive/$KUBERNETES_VERSION.tar.gz
-tar -xz ~/kubernetes.tar.gz
+# Clone repo
+(cd ~ && git clone https://github.com/GoogleCloudPlatform/kubernetes.git)
+(cd ~/kubernetes && git reset --hard $KUBERNETES_VERSION)
 
 # Build go source
-$(cd ~/kubernetes && hack/build-go.sh)
+(cd ~/kubernetes && hack/build-go.sh)
 
