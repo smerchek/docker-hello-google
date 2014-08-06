@@ -30,5 +30,15 @@ $KUBE_ROOT/cluster/kubecfg.sh -c rails-controller.json create replicationControl
 $KUBE_ROOT/cluster/kubecfg.sh -c $HELLO_ROOT/kubernetes/rails-service.json create services
 ```
 
+##Environment Variables
+Note that the following environment variables must be set on CircleCI:
+
+* EXTERNAL_REGISTRY_ENDPOINT: A docker registry endpoint accessible to CircleCI
+* INTERNAL_REGISTRY_ENDPOINT: An endpoint from which GCE instances can access the same registry
+* KUBERNETES_PASS: HTTP basic auth password for Kubernetes master
+* KUBERNETES_USER: HTTP basic auth user for Kubernetes master
+* KUBE_MASTER_IP: Needs to be set so that kubecfg.sh doesn't try to hit the GCE API
+* RAILS_SECRET: Secret to pass on to the Rails app (there could be better places to store this, like in a secure Google Storage bucket)
+
 See the [CircleCI Docker docs](https://circleci.com/docs/docker) for more information about using Docker
 on CircleCI.
