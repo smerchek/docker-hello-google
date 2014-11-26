@@ -5,10 +5,6 @@ set -e
 
 KUBE_CMD=${KUBERNETES_ROOT:-~/kubernetes}/cluster/kubecfg.sh
 
-# Create credential files
-envsubst < .kubernetes_auth.template > ~/.kubernetes_auth
-# envsubst < .dockercfg.template > ~/.dockercfg
-
 # Deploy image to private GCS-backed registry
 docker push $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
 
