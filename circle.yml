@@ -1,12 +1,10 @@
-machine:
-  services:
-    - docker
-    
 dependencies:
   cache_directories:
     - ~/kubernetes
   pre:
     - ./ensure-kubernetes-installed.sh
+    - sudo docker -d -D -e lxc -s btrfs:
+        background: true
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
 
 test:
