@@ -3,7 +3,7 @@ dependencies:
     - ~/kubernetes
   pre:
     - ./ensure-kubernetes-installed.sh
-    - sudo docker -d -D -e lxc -s btrfs:
+    - sudo docker -d -D -e lxc -s btrfs --insecure-registry:
         background: true
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
 
