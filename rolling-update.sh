@@ -54,7 +54,7 @@ echo "Bringing up new pods..."
 CTRL_COUNT=$TARGET_COUNT CTRL_VERSION=$NEW_CTRL_VERSION create-controller
 
 ACTUAL_COUNT=0
-for i in {1..5}; do
+for i in {1..20}; do
     ACTUAL_COUNT=$(CTRL_VERSION=$NEW_CTRL_VERSION count-running)
     if [ $ACTUAL_COUNT -eq $TARGET_COUNT ]; then
 	break
@@ -72,7 +72,7 @@ CTRL_COUNT=0 CTRL_VERSION=$OLD_CTRL_VERSION update-controller
 
 
 ACTUAL_COUNT=$TARGET_COUNT
-for i in {1..5}; do
+for i in {1..20}; do
     ACTUAL_COUNT=$(CTRL_VERSION=$OLD_CTRL_VERSION count-running)
     if [ $ACTUAL_COUNT -eq 0 ]; then
 	break
