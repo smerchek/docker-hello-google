@@ -4,7 +4,7 @@ machine:
     CLOUDSDK_PYTHON_SITEPACKAGES: 1
     CLOUDSDK_COMPUTE_ZONE: us-central1-a
     CLOUDSDK_CORE_PROJECT: circle-docker-hello
-    CLOUDSDK_CONTAINER_CLUSTER: cluster-1
+    CLOUDSDK_CONTAINER_CLUSTER: cluster-2
     PATH: $PATH:/home/ubuntu/google-cloud-sdk/bin
   python:
     version: 2.7.3
