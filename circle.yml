@@ -5,6 +5,7 @@ machine:
     CLOUDSDK_COMPUTE_ZONE: us-central1-a
     CLOUDSDK_CORE_PROJECT: circle-docker-hello
     CLOUDSDK_CONTAINER_CLUSTER: cluster-1
+    PATH: $PATH:/home/ubuntu/google-cloud-sdk/bin
   python:
     version: 2.7.3
     
@@ -13,21 +14,14 @@ dependencies:
     - ~/kubernetes
     - ~/google-cloud-sdk
   pre:
-    - pip install pyopenssl
-    - ssh-keygen -f ~/.ssh/google_compute_engine -N ""
-    - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
-    - ~/google-cloud-sdk/bin/gcloud components update preview
-    - echo $GCLOUD_KEY | base64 --decode > gcloud.p12
-    - ~/google-cloud-sdk/bin/gcloud auth activate-service-account 484500905059-bb55pm9ophqkbhkd1vrront20ati766f@developer.gserviceaccount.com --key-file gcloud.p12
-    - ~/google-cloud-sdk/bin/gcloud preview container pods list
-    - ./ensure-kubernetes-installed.sh
+    - ./ensure-gcloud-installed.sh
     - sudo docker -d -D -e lxc -s btrfs --insecure-registry $EXTERNAL_REGISTRY_ENDPOINT:
         background: true
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
 
 test:
   post:
-    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1; sleep 10
+    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
     - curl --retry 10 --retry-delay 5 -v http://localhost:3000
 
 deployment:
@@ -35,5 +29,6 @@ deployment:
     branch: master
     commands:
       # - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS $EXTERNAL_REGISTRY_ENDPOINT
-      - envsubst < .kubernetes_auth.template > ~/.kubernetes_auth
-      - ./deploy.sh
+      - docker push $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
+      - ./auth-gcloud.sh
+      - ./rolling-update.sh

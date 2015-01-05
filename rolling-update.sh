@@ -1,3 +1,5 @@
+#! /bin/bash
+
 set -eu
 
 CTRL_BASENAME=railscontroller
