@@ -14,6 +14,7 @@ dependencies:
     - ~/google-cloud-sdk
   pre:
     - pip install pyopenssl
+    - ssh-keygen -f google_compute_engine
     - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
     - ~/google-cloud-sdk/bin/gcloud components update preview
     - echo $GCLOUD_KEY | base64 --decode > gcloud.p12
