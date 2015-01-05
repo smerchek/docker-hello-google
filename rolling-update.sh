@@ -27,7 +27,7 @@ echo "New version:" $NEW_CTRL_VERSION
 
 # Assumes CTRL_VERSION
 count-running() {
-    echo $($POD_CMD list | grep -c "$CTRL_VERSION.*Pending") #TODO: Change to running
+    echo $($POD_CMD list | grep -c "$CTRL_VERSION.*Running")
 }
 
 # Assumes CTRL_VERSION
