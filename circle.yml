@@ -15,10 +15,10 @@ dependencies:
   pre:
     - pip install pyopenssl
     - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
-    - google-cloud-sdk/bin/gcloud components update preview
+    - ~/google-cloud-sdk/bin/gcloud components update preview
     - echo $GCLOUD_KEY | base64 --decode > gcloud.p12
-    - google-cloud-sdk/bin/gcloud auth activate-service-account 484500905059-bb55pm9ophqkbhkd1vrront20ati766f@developer.gserviceaccount.com --key-file gcloud.p12
-    - google-cloud-sdk/bin/gcloud preview container pods list
+    - ~/google-cloud-sdk/bin/gcloud auth activate-service-account 484500905059-bb55pm9ophqkbhkd1vrront20ati766f@developer.gserviceaccount.com --key-file gcloud.p12
+    - ~/google-cloud-sdk/bin/gcloud preview container pods list
     - ./ensure-kubernetes-installed.sh
     - sudo docker -d -D -e lxc -s btrfs --insecure-registry $EXTERNAL_REGISTRY_ENDPOINT:
         background: true
