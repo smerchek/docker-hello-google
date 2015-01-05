@@ -13,11 +13,14 @@ dependencies:
   cache_directories:
     - ~/kubernetes
     - ~/google-cloud-sdk
+    - ~/docker
   pre:
     - ./ensure-gcloud-installed.sh
     - sudo docker -d -D -e lxc -s btrfs --insecure-registry $EXTERNAL_REGISTRY_ENDPOINT:
         background: true
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
+    - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 > ~/docker/image.tar
 
 test:
   post:
