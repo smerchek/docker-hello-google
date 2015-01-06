@@ -2,7 +2,7 @@
   "id": "railsservice",
   "kind": "Service",
   "apiVersion": "v1beta1",
-  "port": 8000,
+  "port": 80,
   "containerPort": 3000,
   "labels": {
     "name": "rails"
