@@ -23,7 +23,7 @@ dependencies:
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 > ~/docker/image.tar
 
 test:
-  post:
+  override:
     - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
     - curl --retry 10 --retry-delay 5 -v http://localhost:3000
 
