@@ -1,1 +1,0 @@
-{"User": "${KUBERNETES_USER}", "Password": "${KUBERNETES_PASS}"}
