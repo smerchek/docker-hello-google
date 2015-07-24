@@ -2,24 +2,21 @@ machine:
   environment:
     CLOUDSDK_CORE_DISABLE_PROMPTS: 1
     CLOUDSDK_PYTHON_SITEPACKAGES: 1
-    CLOUDSDK_COMPUTE_ZONE: us-central1-a
-    CLOUDSDK_CORE_PROJECT: circle-docker-hello
-    CLOUDSDK_CONTAINER_CLUSTER: cluster-2
+    CLOUDSDK_COMPUTE_ZONE: us-central1-b
+    CLOUDSDK_CORE_PROJECT: $GCLOUD_PROJECTID
     PATH: $PATH:/home/ubuntu/google-cloud-sdk/bin
   python:
     version: 2.7.3
-    
+  services:
+    - docker
+
 dependencies:
   cache_directories:
-    - ~/kubernetes
     - ~/google-cloud-sdk
     - ~/docker
   override:
     - script/ensure-gcloud-installed.sh
-    - sudo docker -d -D -e lxc -s btrfs --insecure-registry $EXTERNAL_REGISTRY_ENDPOINT:
-        background: true
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-    - script/git-set-mtimes.pl
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 > ~/docker/image.tar
 
@@ -36,7 +33,5 @@ deployment:
   prod:
     branch: master
     commands:
-      # - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS $EXTERNAL_REGISTRY_ENDPOINT
-      - docker push $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
       - script/auth-gcloud.sh
-      - script/rolling-update.sh
+      - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1
